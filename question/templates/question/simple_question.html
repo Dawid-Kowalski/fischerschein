@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>Question:
+        <span id='question-id'>
+            {{ all_questions.question_id }}
+        </span>
+    </p>
+    <p>main topic:
+        <span id='main-topic'>
+            {{ all_questions.main_topic_ger }}
+        </span>
+    </p>
+    <p>under topic:
+        <span id='under-topic'>
+            {{ all_questions.main_topic_ger }}
+        </span>
+    </p>
+    <p>question:
+        <span id='question'>
+            {{ all_questions.main_topic_ger }}
+        </span>
+    </p>
+    <input type='radio' id='answer-A' name='answers'>
+    <label for='answer-A' id='answer-A-label'>all_questions.answer_a_ger</label>
+    <input type='radio' id='answer-B' name='answers'>
+    <label for='answer-B' id='answer-B-label'>all_questions.answer_b_ger</label>
+    <input type='radio' id='answer-C' name='answers'>
+    <label for='answer-C' id='answer-C-label'>all_questions.answer_c_ger</label>
+    <button type='button' id='draw-new-question-btn'>random question</button>
+    <button type='button' id='check-question-btn'>check question</button>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id='modal-body'>
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+
+        makeQuestionsData = () => {
+            const questions = [];
+            let nextQuestion;
+            let answersGer;
+
+            {% for question in all_questions %}
+                nextQuestion = {};
+                nextQuestion.questionId = parseInt('{{ question.question_id }}');
+                nextQuestion.mainTopicGer = '{{ question.main_topic_ger }}';
+                nextQuestion.underTopicGer = '{{ question.under_topic_ger }}';
+                nextQuestion.questionGer = '{{ question.question_ger }}';
+                answersGer = [];
+                answersGer.push('{{ question.answer_a_ger }}');
+                answersGer.push('{{ question.answer_b_ger }}');
+                answersGer.push('{{ question.answer_c_ger }}');
+                nextQuestion.answersGer = answersGer;
+                nextQuestion.correctAnswerGer = '{{ question.correct_answer_ger }}';
+                questions.push(nextQuestion);
+            {% endfor %}
+
+            return questions;
+        }
+
+        uncheckedRadios = () => {
+            document.querySelector('#answer-A').checked = false;
+            document.querySelector('#answer-B').checked = false;
+            document.querySelector('#answer-C').checked = false;
+        }
+
+        prepareQuestion = (question) => {
+            document.querySelector('#question-id').textContent = question.questionId;
+            document.querySelector('#main-topic').textContent = question.mainTopicGer;
+            document.querySelector('#under-topic').textContent = question.underTopicGer;
+            document.querySelector('#question').textContent = question.questionGer;
+
+            const shuffledAnswerIndexs = shuffleQuestionsAnswer(); // returns array 0,1,2 in random order
+            document.querySelector('#answer-A-label').textContent = question.answersGer[shuffledAnswerIndexs[0]];
+            document.querySelector('#answer-B-label').textContent = question.answersGer[shuffledAnswerIndexs[1]];
+            document.querySelector('#answer-C-label').textContent = question.answersGer[shuffledAnswerIndexs[2]];
+
+            document.querySelector('#answer-A').value = question.answersGer[shuffledAnswerIndexs[0]];
+            document.querySelector('#answer-B').value = question.answersGer[shuffledAnswerIndexs[1]];
+            document.querySelector('#answer-C').value = question.answersGer[shuffledAnswerIndexs[2]];
+            
+            uncheckedRadios();
+        }
+
+        drawQuestion = () => {
+            const randomNumber = Math.floor(Math.random() * 600) + 1;
+            const questions = makeQuestionsData();
+            const simpleQuestion = questions[randomNumber];
+            prepareQuestion(simpleQuestion);
+        }
+
+        shuffleQuestionsAnswer = () => {
+            const array = [0,1,2];
+            array.sort(()=>Math.random()-0.5);
+            return array;
+        }
+
+        getUserAnswer = () => {
+            let userAnswer;
+            try {
+                userAnswer = document.querySelector('input[name="answers"]:checked').value;
+            }
+            catch (err){
+                userAnswer = 'no answer';
+            }
+            return userAnswer;
+        }
+
+        checkQuestion = () => {
+            const userAnswer = getUserAnswer();
+            const questionId = parseInt(document.querySelector('#question-id').textContent);
+            const allQuestions = makeQuestionsData();
+            const correctAnswer = allQuestions[questionId-1].correctAnswerGer; // index in array from 0, questions from 1
+            const modalBody = document.querySelector('#modal-body');
+            userAnswer == correctAnswer ? modalBody.textContent= 'correct' : modalBody.textContent = 'false';
+            $("#exampleModal").modal()
+        }
+
+        const drawNewQuestionButton = document.querySelector('#draw-new-question-btn');
+        drawNewQuestionButton.addEventListener('click',drawQuestion);
+
+        const checkQuestionButton = document.querySelector('#check-question-btn');
+        checkQuestionButton.addEventListener('click',checkQuestion);
+
+        drawQuestion();
+
+    </script>
+{% endblock %}

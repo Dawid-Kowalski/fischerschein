@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>Test:</p>
+    <p>Questions:</p>
+    <button type='button' id='new-test-btn'>new test</button>
+    <button type='button' id='check-test-btn'>check test</button>
+    <div id='test'>
+
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+
+        let selectedQuestionsGlobal = [];
+
+        chooseQuestionBetween = (min,max) => {
+            return Math.floor(Math.random()*(max-min+1))+min;
+        }
+        
+        choose12uniqueQuestionBetween = (min,max) => {
+            const questions = [];
+            let newQuestion;
+            do {
+                newQuestion = chooseQuestionBetween(min,max);
+                if(!questions.includes(newQuestion)){
+                    questions.push(newQuestion)
+                }
+            } while(questions.length != 12);
+
+            return questions
+        }
+
+        chosseTestQuestionsIds = () => {
+            const testQuestionsId = [];
+            testQuestionsId.push(choose12uniqueQuestionBetween(0,119));
+            testQuestionsId.push(choose12uniqueQuestionBetween(120,239));
+            testQuestionsId.push(choose12uniqueQuestionBetween(240,359));
+            testQuestionsId.push(choose12uniqueQuestionBetween(360,479));
+            testQuestionsId.push(choose12uniqueQuestionBetween(480,599));
+
+            return testQuestionsId;
+        }
+
+        buildQuestionTemplateQuestionText = (questionNumer,questionText) => {
+            // results for example <p>1<span>. question text</span></p>
+            const questionHeader = document.createElement('p');
+            questionHeader.textContent = questionNumer;
+            const questionTextSpan = document.createElement('span');
+            questionTextSpan.textContent = `. ${questionText}`;
+            questionHeader.appendChild(questionTextSpan);
+            return questionHeader;
+        }
+
+        buildQuestionTemplateQuestionRadio = (radioValue, groupName) => {
+            const radioBtn = document.createElement('input');
+            radioBtn.type = 'radio';
+            radioBtn.value = radioValue;
+            radioBtn.name = groupName;
+            return radioBtn;
+        }
+
+        buildQuestionTemplateQuestionRadioLabel = (text) => {
+            const radioLabel = document.createElement('label');
+            radioLabel.textContent = text;
+            return radioLabel;
+        }
+
+        shuffleQuestionsAnswer = () => {
+            const array = [0,1,2];
+            array.sort(()=>Math.random()-0.5);
+            return array;
+        }
+
+
+        buildQuestionTemplate = (questionNumber,questionText,answersGer) => {
+
+            const shuffledAnswerIndexs = shuffleQuestionsAnswer(); // returns array 0,1,2 in random order
+
+            const testDiv = document.querySelector('#test');
+            const idParagraph = buildQuestionTemplateQuestionText(questionNumber,questionText);
+            
+            const answerAinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[0]],'answer-'+questionNumber);
+            const radioALabel = buildQuestionTemplateQuestionRadioLabel(answersGer[shuffledAnswerIndexs[0]])
+
+            const answerBinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[1]],'answer-'+questionNumber);
+            const radioBLabel = buildQuestionTemplateQuestionRadioLabel(answersGer[shuffledAnswerIndexs[1]])
+
+            const answerCinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[2]],'answer-'+questionNumber);
+            const radioCLabel = buildQuestionTemplateQuestionRadioLabel(answersGer[shuffledAnswerIndexs[2]]);
+
+            testDiv.appendChild(idParagraph);
+
+            testDiv.appendChild(answerAinput);
+            testDiv.appendChild(radioALabel);
+
+            testDiv.appendChild(answerBinput);
+            testDiv.appendChild(radioBLabel);
+
+            testDiv.appendChild(answerCinput);
+            testDiv.appendChild(radioCLabel);
+        }
+
+        makeQuestionsData = () => {
+            const questions = [];
+            let nextQuestion;
+            let answersGer;
+
+            {% for question in all_questions %}
+                nextQuestion = {};
+                nextQuestion.questionGer = '{{ question.question_ger }}';
+                answersGer = [];
+                answersGer.push('{{ question.answer_a_ger }}');
+                answersGer.push('{{ question.answer_b_ger }}');
+                answersGer.push('{{ question.answer_c_ger }}');
+                nextQuestion.answersGer = answersGer;
+                nextQuestion.correctAnswerGer = '{{ question.correct_answer_ger }}';
+                questions.push(nextQuestion);
+            {% endfor %}
+
+            return questions;
+        }
+
+        makeSelectedQuestionsData = () => {
+            const selectedQuestionIds = chosseTestQuestionsIds().flat(Infinity);
+            const allQuestions = makeQuestionsData();
+            const selectedQuestions = [];
+            let newQuestion;
+
+            for(i=0;i<selectedQuestionIds.length;i++){
+                newQuestion= {};
+                newQuestion.questionGer = allQuestions[selectedQuestionIds[i]].questionGer;
+                newQuestion.answersGer = allQuestions[selectedQuestionIds[i]].answersGer;
+                newQuestion.correctAnswerGer = allQuestions[selectedQuestionIds[i]].correctAnswerGer;
+                selectedQuestions.push(newQuestion);
+            }
+
+            selectedQuestionsGlobal = selectedQuestions;
+
+
+            return selectedQuestions;
+        }
+
+        removePreviousTest = () => {
+            const testDiv = document.querySelector('#test');
+            while(testDiv.firstChild){
+                testDiv.removeChild(testDiv.firstChild);
+            }
+        }
+
+        prepareTest = () => {
+            removePreviousTest();
+            const selectedQuestion = makeSelectedQuestionsData();
+            for(i=0;i<selectedQuestion.length;i++){
+                buildQuestionTemplate(i+1,selectedQuestion[i].questionGer,selectedQuestion[i].answersGer);
+            }
+        }
+
+        prepareTest();
+
+        const newTestButton = document.querySelector('#new-test-btn');
+        const checkTestButton = document.querySelector('#check-test-btn');
+
+        newTestButton.addEventListener('click',prepareTest);
+
+        getUserAnswers = () => {
+            let userAnswers = [];
+
+            for(i=0;i<60;i++){
+                try {
+                    userAnswers.push(document.querySelector(`input[name="answer-${i+1}"]:checked`).value);
+                }
+                catch (err){
+                    userAnswers.push(null);
+                }
+            }
+            return userAnswers;
+        }
+
+        getCorrectAnswer = (selectedQuestionsGlobal) => {
+            const correctAnswerGer = [];
+            for(i=0;i<selectedQuestionsGlobal.length;i++){
+                correctAnswerGer.push(selectedQuestionsGlobal[i].correctAnswerGer);
+            }
+            return correctAnswerGer;
+        }
+
+        checkTest = () => {
+            const userAnswers = getUserAnswers();
+            const correctAnswer = getCorrectAnswer(selectedQuestionsGlobal);
+            let points = 0;
+            for(let i=0;i<userAnswers.length;i++){
+                if(userAnswers[i]==correctAnswer[i]){
+                    points++;
+                }
+            }
+            alert(points);
+        }
+
+        checkTestButton.addEventListener('click',checkTest);
+
+    </script>
+{% endblock %}
