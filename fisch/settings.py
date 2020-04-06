@@ -4,7 +4,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'tr6o^nc^3cm(n2@lgv!vur-)ja)0cswj0_^r_wmob+6vgzo)rx'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['fischerschein.herokuapp.com','127.0.0.1']
 
