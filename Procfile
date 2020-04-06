@@ -1,1 +1,1 @@
-web: gunicorn fisch:app
+web: gunicorn fisch:wsgi --log-file -

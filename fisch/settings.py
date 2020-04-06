@@ -6,7 +6,7 @@ SECRET_KEY = 'tr6o^nc^3cm(n2@lgv!vur-)ja)0cswj0_^r_wmob+6vgzo)rx'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['fischerschein.herokuapp.com','127.0.0.1']
 
 INSTALLED_APPS = [
     'question.apps.QuestionConfig',
