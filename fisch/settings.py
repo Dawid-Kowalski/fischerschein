@@ -55,10 +55,10 @@ WSGI_APPLICATION = 'fisch.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'fisch',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
+        'NAME': 'dawidk_fisch',
+        'USER': 'dawidk_fisch',
+        'PASSWORD': 'wR2WNpGr7J8ITOjAF7d63h5IxduuJlWg',
+        'HOST': 'mysql-318021.vipserv.org',
         'PORT': '3306',
     }
 }
