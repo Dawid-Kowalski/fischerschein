@@ -4,15 +4,23 @@
     <p>Test:</p>
     <p>Questions:</p>
     <button type='button' id='new-test-btn'>new test</button>
+    <button type='button' id='check-test-btn'>check test</button>
+    <div id='test'>
+
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+        <label class="form-check-label" for="exampleRadios1">
+          Default radio
+        </label>
+    </div>
+
+    <p>next topic from test</p>
     <button type='button' id='show-topic-1-questions-btn'>topic 1</button>
     <button type='button' id='show-topic-2-questions-btn'>topic 2</button>
     <button type='button' id='show-topic-3-questions-btn'>topic 3</button>
     <button type='button' id='show-topic-4-questions-btn'>topic 4</button>
     <button type='button' id='show-topic-5-questions-btn'>topic 5</button>
-    <button type='button' id='check-test-btn'>check test</button>
-    <div id='test'>
-
-    </div>
 
 {% endblock %}
 
@@ -59,17 +67,26 @@
             return questionHeader;
         }
 
-        buildQuestionTemplateQuestionRadio = (radioValue, groupName) => {
+        buildQuestionTemplateQuestionRadio = (radioValue, groupName,text) => {
+            const radioDiv = document.createElement('div');
+            radioDiv.classList.add('form-check');
             const radioBtn = document.createElement('input');
             radioBtn.type = 'radio';
             radioBtn.value = radioValue;
+            radioBtn.classList.add('form-check-input');
             radioBtn.name = groupName;
-            return radioBtn;
+            const radioLabel = buildQuestionTemplateQuestionRadioLabel(text);
+
+            radioDiv.appendChild(radioBtn);
+            radioDiv.appendChild(radioLabel);
+
+            return radioDiv;
         }
 
         buildQuestionTemplateQuestionRadioLabel = (text) => {
             const radioLabel = document.createElement('label');
             radioLabel.textContent = text;
+            radioLabel.classList.add('form-check-label');
             return radioLabel;
         }
 
@@ -86,29 +103,22 @@
             const testDiv = document.querySelector('#test');
 
             const questionDiv = document.createElement('div');
+            questionDiv.classList.add('form-check');
             questionDiv.dataset.topic = translateTopicToTopicIdData(topic);
 
             const idParagraph = buildQuestionTemplateQuestionText(questionNumber,questionText);
             
-            const answerAinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[0]],'answer-'+questionNumber);
-            const radioALabel = buildQuestionTemplateQuestionRadioLabel(answersGer[shuffledAnswerIndexs[0]])
+            const answerAinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[0]],'answer-'+questionNumber,answersGer[shuffledAnswerIndexs[0]]);
 
-            const answerBinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[1]],'answer-'+questionNumber);
-            const radioBLabel = buildQuestionTemplateQuestionRadioLabel(answersGer[shuffledAnswerIndexs[1]])
+            const answerBinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[1]],'answer-'+questionNumber,answersGer[shuffledAnswerIndexs[1]]);
 
-            const answerCinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[2]],'answer-'+questionNumber);
-            const radioCLabel = buildQuestionTemplateQuestionRadioLabel(answersGer[shuffledAnswerIndexs[2]]);
+            const answerCinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[2]],'answer-'+questionNumber,answersGer[shuffledAnswerIndexs[2]]);
 
             questionDiv.appendChild(idParagraph);
 
             questionDiv.appendChild(answerAinput);
-            questionDiv.appendChild(radioALabel);
-
             questionDiv.appendChild(answerBinput);
-            questionDiv.appendChild(radioBLabel);
-
             questionDiv.appendChild(answerCinput);
-            questionDiv.appendChild(radioCLabel);
 
             testDiv.appendChild(questionDiv);
         }
