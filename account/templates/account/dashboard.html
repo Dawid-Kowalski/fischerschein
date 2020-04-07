@@ -4,6 +4,7 @@
     {% if request.user.is_authenticated %}
         <p>user panel</p>
         <p>hello, {{ request.user.first_name }}</p>
+        <a href='{% url "account:password_change" %}'>change password</a>
         <a href='{% url "account:logout" %}'>logout</a>
     {% else %}
         <a href='{% url "account:login" %}'>login</a>

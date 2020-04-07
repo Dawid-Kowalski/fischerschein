@@ -6,10 +6,11 @@
     {% else %}
         <p>Login form:</p>
     {% endif %}
-    <form action='{% url "account:login" %}'' method='post'>
+    <form action='{% url "account:login" %}' method='post'>
         {{ form.as_p }}
         {% csrf_token %}
         <input type='hidden' name='next' value='{{ next }}'/>
         <button type='submit'>login</button>
     </form>
+    <a href='{% url "account:password_reset" %}'>forgot password</a>
 {% endblock %}
