@@ -4,6 +4,11 @@
     <p>Test:</p>
     <p>Questions:</p>
     <button type='button' id='new-test-btn'>new test</button>
+    <button type='button' id='show-topic-1-questions-btn'>topic 1</button>
+    <button type='button' id='show-topic-2-questions-btn'>topic 2</button>
+    <button type='button' id='show-topic-3-questions-btn'>topic 3</button>
+    <button type='button' id='show-topic-4-questions-btn'>topic 4</button>
+    <button type='button' id='show-topic-5-questions-btn'>topic 5</button>
     <button type='button' id='check-test-btn'>check test</button>
     <div id='test'>
 
@@ -74,12 +79,15 @@
             return array;
         }
 
-
-        buildQuestionTemplate = (questionNumber,questionText,answersGer) => {
+        buildQuestionTemplate = (questionNumber,questionText,topic,answersGer) => {
 
             const shuffledAnswerIndexs = shuffleQuestionsAnswer(); // returns array 0,1,2 in random order
 
             const testDiv = document.querySelector('#test');
+
+            const questionDiv = document.createElement('div');
+            questionDiv.dataset.topic = translateTopicToTopicIdData(topic);
+
             const idParagraph = buildQuestionTemplateQuestionText(questionNumber,questionText);
             
             const answerAinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[0]],'answer-'+questionNumber);
@@ -91,16 +99,18 @@
             const answerCinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[2]],'answer-'+questionNumber);
             const radioCLabel = buildQuestionTemplateQuestionRadioLabel(answersGer[shuffledAnswerIndexs[2]]);
 
-            testDiv.appendChild(idParagraph);
+            questionDiv.appendChild(idParagraph);
 
-            testDiv.appendChild(answerAinput);
-            testDiv.appendChild(radioALabel);
+            questionDiv.appendChild(answerAinput);
+            questionDiv.appendChild(radioALabel);
 
-            testDiv.appendChild(answerBinput);
-            testDiv.appendChild(radioBLabel);
+            questionDiv.appendChild(answerBinput);
+            questionDiv.appendChild(radioBLabel);
 
-            testDiv.appendChild(answerCinput);
-            testDiv.appendChild(radioCLabel);
+            questionDiv.appendChild(answerCinput);
+            questionDiv.appendChild(radioCLabel);
+
+            testDiv.appendChild(questionDiv);
         }
 
         makeQuestionsData = () => {
@@ -111,6 +121,7 @@
             {% for question in all_questions %}
                 nextQuestion = {};
                 nextQuestion.questionGer = '{{ question.question_ger }}';
+                nextQuestion.mainTopicGer = '{{ question.main_topic_ger }}';
                 answersGer = [];
                 answersGer.push('{{ question.answer_a_ger }}');
                 answersGer.push('{{ question.answer_b_ger }}');
@@ -121,6 +132,28 @@
             {% endfor %}
 
             return questions;
+        }
+
+        translateTopicToTopicIdData = (topicText) => {
+            let topicIdData;
+            switch(topicText) {
+                case 'Fischkunde und -hege':
+                    topicIdData = 1;
+                    break;
+                case 'Pflege der Fischgewässer':
+                    topicIdData = 2;
+                    break;
+                case 'Fanggeräte und deren Gebrauch':
+                    topicIdData = 3;
+                    break;
+                case 'Behandlung der gefangenen Fische':
+                    topicIdData = 4;
+                    break;
+                case 'Einschlägige Rechtsvorschriften':
+                    topicIdData = 5;
+                    break;
+            }
+            return topicIdData;
         }
 
         makeSelectedQuestionsData = () => {
@@ -134,6 +167,7 @@
                 newQuestion.questionGer = allQuestions[selectedQuestionIds[i]].questionGer;
                 newQuestion.answersGer = allQuestions[selectedQuestionIds[i]].answersGer;
                 newQuestion.correctAnswerGer = allQuestions[selectedQuestionIds[i]].correctAnswerGer;
+                newQuestion.mainTopicGer = allQuestions[selectedQuestionIds[i]].mainTopicGer;
                 selectedQuestions.push(newQuestion);
             }
 
@@ -150,18 +184,41 @@
             }
         }
 
+        hideAllQuestions = () => {
+            const allQuestionsDivs = document.querySelectorAll('div[data-topic]');
+            for(let i=0;i<allQuestionsDivs.length;i++){
+                allQuestionsDivs[i].style.display = 'none';
+            }
+        }
+
+        showQuestionFromTopic = (topic) => {
+            hideAllQuestions();
+            const questionToShow = document.querySelectorAll(`div[data-topic="${topic}"]`);
+            for(let i=0;i<questionToShow.length;i++){
+                questionToShow[i].style.display = 'block';
+            }
+        }
+
         prepareTest = () => {
             removePreviousTest();
             const selectedQuestion = makeSelectedQuestionsData();
             for(i=0;i<selectedQuestion.length;i++){
-                buildQuestionTemplate(i+1,selectedQuestion[i].questionGer,selectedQuestion[i].answersGer);
+                buildQuestionTemplate(i+1,selectedQuestion[i].questionGer,selectedQuestion[i].mainTopicGer, selectedQuestion[i].answersGer);
             }
+            hideAllQuestions();
+            showQuestionFromTopic(1);
         }
 
         prepareTest();
 
         const newTestButton = document.querySelector('#new-test-btn');
         const checkTestButton = document.querySelector('#check-test-btn');
+        const hideAllQuestionsButton = document.querySelector('#hide-all-questions-btn');
+        const showQuestions_1_Button = document.querySelector('#show-topic-1-questions-btn')
+        const showQuestions_2_Button = document.querySelector('#show-topic-2-questions-btn')
+        const showQuestions_3_Button = document.querySelector('#show-topic-3-questions-btn')
+        const showQuestions_4_Button = document.querySelector('#show-topic-4-questions-btn')
+        const showQuestions_5_Button = document.querySelector('#show-topic-5-questions-btn')
 
         newTestButton.addEventListener('click',prepareTest);
 
@@ -200,6 +257,36 @@
         }
 
         checkTestButton.addEventListener('click',checkTest);
+
+        showQuestions_1_Button.addEventListener('click',
+                function(){
+                    showQuestionFromTopic(1)
+            }
+        );
+
+        showQuestions_2_Button.addEventListener('click',
+                function(){
+                    showQuestionFromTopic(2)
+            }
+        );
+
+        showQuestions_3_Button.addEventListener('click',
+                function(){
+                    showQuestionFromTopic(3)
+            }
+        );
+
+        showQuestions_4_Button.addEventListener('click',
+                function(){
+                    showQuestionFromTopic(4)
+            }
+        );
+
+        showQuestions_5_Button.addEventListener('click',
+                function(){
+                    showQuestionFromTopic(5)
+            }
+        );
 
     </script>
 {% endblock %}
