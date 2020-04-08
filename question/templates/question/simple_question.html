@@ -1,34 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>Question:
-        <span id='question-id'>
-            {{ all_questions.question_id }}
-        </span>
-    </p>
-    <p>main topic:
-        <span id='main-topic'>
-            {{ all_questions.main_topic_ger }}
-        </span>
-    </p>
-    <p>under topic:
-        <span id='under-topic'>
-            {{ all_questions.main_topic_ger }}
-        </span>
-    </p>
-    <p>question:
-        <span id='question'>
-            {{ all_questions.main_topic_ger }}
-        </span>
-    </p>
-    <input type='radio' id='answer-A' name='answers'>
-    <label for='answer-A' id='answer-A-label'>all_questions.answer_a_ger</label>
-    <input type='radio' id='answer-B' name='answers'>
-    <label for='answer-B' id='answer-B-label'>all_questions.answer_b_ger</label>
-    <input type='radio' id='answer-C' name='answers'>
-    <label for='answer-C' id='answer-C-label'>all_questions.answer_c_ger</label>
-    <button type='button' id='draw-new-question-btn'>random question</button>
-    <button type='button' id='check-question-btn'>check question</button>
+    <div class='text-center m-2 p-2 account-bg'>
+        <button class='btn btn-secondary' type='button' id='draw-new-question-btn'><i class="far fa-file"></i> random question</button>
+        <button class='btn btn-secondary' type='button' id='check-question-btn'><i class="fas fa-tasks"></i> check question</button>
+        <p>main topic: <span id='main-topic'>{{ all_questions.main_topic_ger }}</span><br>
+        under topic: <span id='under-topic'>{{ all_questions.main_topic_ger }}</span></p>
+    </div>
+    <div class='account-bg m-2 p-2'>
+        <div class='text-center'>
+            <p>Question:
+                <span id='question-id'>
+                    {{ all_questions.question_id }}
+                </span>
+            </p>
+            <p>
+                <span id='question'>
+                    {{ all_questions.main_topic_ger }}
+                </span>
+            </p>
+        </div>
+        <div class='container'>
+            <div class='form-check'>
+                <div class='col-6 offset-3'>
+                    <input class='form-check-input' type='radio' name='answers' id='answer-A'>
+                    <label class='form-check-label' for='answer-A' id='answer-A-label'>
+                        all_questions.answer_a_ger
+                    </label>
+                </div>
+            </div>
+            <div class='form-check'>
+                <div class='col-6 offset-3'>
+                    <input class='form-check-input' type='radio' name='answers' id='answer-B'>
+                    <label class='form-check-label' for='answer-B' id='answer-B-label'>
+                        all_questions.answer_b_ger
+                    </label>
+                </div>
+            </div>
+            <div class='form-check'>
+                <div class='col-6 offset-3'>
+                    <input class='form-check-input' type='radio' name='answers' id='answer-C'>
+                    <label class='form-check-label' for='answer-C' id='answer-C-label'>
+                        all_questions.answer_c_ger
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
