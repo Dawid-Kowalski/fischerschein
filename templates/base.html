@@ -36,13 +36,13 @@
                     <a class='nav-item nav-link' href='#'><i class="fas fa-user-tie"></i> About project and me</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
+            <div class="form-inline my-2 my-lg-0">
                 language:  
-                <select id='mySelect' data-show-content='true' class='form-control selectpicker'>
-                    <option data-content="<span class='flag-icon flag-icon-de'></span>"></option>
-                    <option data-content="<span class='flag-icon flag-icon-pl'></span>"></option>
+                <select id='language-select' data-show-content='true' class='form-control selectpicker'>
+                    <option id='language-de' data-content="<span class='flag-icon flag-icon-de'></span>" value='de' selected></option>
+                    <option id='language-pl' data-content="<span class='flag-icon flag-icon-pl'></span>" value='pl'></option>
                 </select>
-            </form>
+            </div>
         </div>
     </nav>
     <div class='hero-image'>
@@ -66,7 +66,42 @@
     <script>
         $( document ).ready(function() {
             $('.selectpicker').selectpicker();
+
+            const language = document.querySelector('#language-select');
+
+            changeLanguage = () => {
+                const language = document.querySelector('#language-select');
+                localStorage.setItem('language', language.value);
+            }
+
+            language.addEventListener('change',changeLanguage);
+
+            if (localStorage.getItem('language')===null){
+                localStorage.setItem('language', language.value);
+            } else {
+                const languageDE = document.querySelector("#language-de");
+                const languagePL = document.querySelector("#language-pl");
+                const innerCountryFlag = document.querySelector(".filter-option-inner-inner");
+
+                if(localStorage.getItem('language')==='de'){
+                    languagePL.selected = false;
+                    languageDE.selected = true;
+                    let span = document.createElement('span');
+                    innerCountryFlag.firstChild.remove();
+                    span.classList.add('flag-icon', 'flag-icon-de');
+                    innerCountryFlag.appendChild(span);
+                }
+                if(localStorage.getItem('language')==='pl'){
+                    languageDE.selected = false;
+                    languagePL.selected = true;
+                    let span = document.createElement('span');
+                    innerCountryFlag.firstChild.remove();
+                    span.classList.add('flag-icon', 'flag-icon-pl');
+                    innerCountryFlag.appendChild(span);
+                }
+            }
         });
+
     </script>
 
     {% block javascript %}
