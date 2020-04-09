@@ -2,6 +2,7 @@
 
 {% block content %}
     <div class='text-center m-2 p-2 account-bg'>
+        <h6 data-translate-flag='true'>aby uzyskać tłumaczenie na język polski najedź myszką na ikonę: <span class='flag-icon flag-icon-pl'></span> znajdującą się obok pytania lub odpowiedzi</h6>
         <button class='btn btn-secondary' type='button' id='new-test-btn'><i class="far fa-file"></i> new test</button>
         <button class='btn btn-secondary' type='button' id='check-test-btn'><i class="fas fa-tasks"></i> check test</button>
         <button class='btn btn-secondary' type='button' data-toggle="modal" data-target="#exampleModal" id='check-test-btn'><i class="fas fa-info"></i> test info</button>
@@ -104,17 +105,27 @@
             return testQuestionsId;
         }
 
-        buildQuestionTemplateQuestionText = (questionNumer,questionText) => {
+        buildQuestionTemplateQuestionText = (questionNumer,questionText,questionTextPl) => {
             // results for example <p>1<span>. question text</span></p>
             const questionHeader = document.createElement('p');
             questionHeader.textContent = questionNumer;
             const questionTextSpan = document.createElement('span');
             questionTextSpan.textContent = `. ${questionText}`;
+            const flagSpan = document.createElement('span');
+            flagSpan.classList.add('flag-icon', 'flag-icon-pl','m-1');
+            flagSpan.dataset.toggle='tooltip';
+            flagSpan.dataset.placement='top';
+            flagSpan.setAttribute('data-translate-flag','true');
+            flagSpan.id = `question-${questionNumer}`;
             questionHeader.appendChild(questionTextSpan);
+            questionHeader.appendChild(flagSpan);
+            $(function(){
+                $(`#question-${questionNumer}`).tooltip('dispose').tooltip({title:questionTextPl}).tooltip();
+            })
             return questionHeader;
         }
 
-        buildQuestionTemplateQuestionRadio = (radioValue, groupName,text) => {
+        buildQuestionTemplateQuestionRadio = (answerNumber,radioValue,groupName,answerTextGer,answerTextPl) => {
             const radioDiv = document.createElement('div');
             radioDiv.classList.add('form-check');
             const radioBtn = document.createElement('input');
@@ -122,11 +133,19 @@
             radioBtn.value = radioValue;
             radioBtn.classList.add('form-check-input');
             radioBtn.name = groupName;
-            const radioLabel = buildQuestionTemplateQuestionRadioLabel(text);
-
+            const radioLabel = buildQuestionTemplateQuestionRadioLabel(answerTextGer);
+            const flagSpan = document.createElement('span');
+            flagSpan.classList.add('flag-icon', 'flag-icon-pl','m-1');
+            flagSpan.setAttribute('data-translate-flag','true');
+            flagSpan.dataset.toggle='tooltip';
+            flagSpan.dataset.placement='top';
+            flagSpan.id = `${groupName}-${answerNumber}`;
             radioDiv.appendChild(radioBtn);
             radioDiv.appendChild(radioLabel);
-
+            radioDiv.appendChild(flagSpan);
+            $(function(){
+                $(`#${groupName}-${answerNumber}`).tooltip('dispose').tooltip({title:answerTextPl}).tooltip();
+            })
             return radioDiv;
         }
 
@@ -143,7 +162,7 @@
             return array;
         }
 
-        buildQuestionTemplate = (questionNumber,questionText,topic,answersGer) => {
+        buildQuestionTemplate = (questionNumber,questionText,questionTextPl,topic,answersGer,answersPl) => {
 
             const shuffledAnswerIndexs = shuffleQuestionsAnswer(); // returns array 0,1,2 in random order
 
@@ -152,21 +171,15 @@
             const questionDiv = document.createElement('div');
             questionDiv.classList.add('form-check', 'account-bg','mx-2','my-2','py-2');
             questionDiv.dataset.topic = translateTopicToTopicIdData(topic);
-
-            const idParagraph = buildQuestionTemplateQuestionText(questionNumber,questionText);
-            
-            const answerAinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[0]],'answer-'+questionNumber,answersGer[shuffledAnswerIndexs[0]]);
-
-            const answerBinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[1]],'answer-'+questionNumber,answersGer[shuffledAnswerIndexs[1]]);
-
-            const answerCinput = buildQuestionTemplateQuestionRadio(answersGer[shuffledAnswerIndexs[2]],'answer-'+questionNumber,answersGer[shuffledAnswerIndexs[2]]);
+            const idParagraph = buildQuestionTemplateQuestionText(questionNumber,questionText,questionTextPl);
 
             questionDiv.appendChild(idParagraph);
 
-            questionDiv.appendChild(answerAinput);
-            questionDiv.appendChild(answerBinput);
-            questionDiv.appendChild(answerCinput);
-
+            let answerInput
+            for(let i=0;i<3;i++){
+                answerInput = buildQuestionTemplateQuestionRadio(i,answersGer[shuffledAnswerIndexs[i]],'answer-'+questionNumber,answersGer[shuffledAnswerIndexs[i]],answersPl[shuffledAnswerIndexs[i]]);
+                questionDiv.appendChild(answerInput);
+            }
             testDiv.appendChild(questionDiv);
         }
 
@@ -178,12 +191,18 @@
             {% for question in all_questions %}
                 nextQuestion = {};
                 nextQuestion.questionGer = '{{ question.question_ger }}';
+                nextQuestion.questionPl = '{{ question.question_pl }}';
                 nextQuestion.mainTopicGer = '{{ question.main_topic_ger }}';
                 answersGer = [];
                 answersGer.push('{{ question.answer_a_ger }}');
                 answersGer.push('{{ question.answer_b_ger }}');
                 answersGer.push('{{ question.answer_c_ger }}');
                 nextQuestion.answersGer = answersGer;
+                answersPl = [];
+                answersPl.push('{{ question.answer_a_pl }}');
+                answersPl.push('{{ question.answer_b_pl }}');
+                answersPl.push('{{ question.answer_c_pl }}');
+                nextQuestion.answersPl = answersPl;
                 nextQuestion.correctAnswerGer = '{{ question.correct_answer_ger }}';
                 questions.push(nextQuestion);
             {% endfor %}
@@ -222,14 +241,15 @@
             for(i=0;i<selectedQuestionIds.length;i++){
                 newQuestion= {};
                 newQuestion.questionGer = allQuestions[selectedQuestionIds[i]].questionGer;
+                newQuestion.questionPl = allQuestions[selectedQuestionIds[i]].questionPl;
                 newQuestion.answersGer = allQuestions[selectedQuestionIds[i]].answersGer;
+                newQuestion.answersPl = allQuestions[selectedQuestionIds[i]].answersPl;
                 newQuestion.correctAnswerGer = allQuestions[selectedQuestionIds[i]].correctAnswerGer;
                 newQuestion.mainTopicGer = allQuestions[selectedQuestionIds[i]].mainTopicGer;
                 selectedQuestions.push(newQuestion);
             }
 
             selectedQuestionsGlobal = selectedQuestions;
-
 
             return selectedQuestions;
         }
@@ -260,7 +280,7 @@
             removePreviousTest();
             const selectedQuestion = makeSelectedQuestionsData();
             for(i=0;i<selectedQuestion.length;i++){
-                buildQuestionTemplate(i+1,selectedQuestion[i].questionGer,selectedQuestion[i].mainTopicGer, selectedQuestion[i].answersGer);
+                buildQuestionTemplate(i+1,selectedQuestion[i].questionGer,selectedQuestion[i].questionPl,selectedQuestion[i].mainTopicGer, selectedQuestion[i].answersGer,selectedQuestion[i].answersPl);
             }
             hideAllQuestions();
             showQuestionFromTopic(1);

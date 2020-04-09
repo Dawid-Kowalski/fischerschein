@@ -40,7 +40,7 @@
             <div class="form-inline my-2 my-lg-0">
                 language:  
                 <select id='language-select' data-show-content='true' class='form-control selectpicker'>
-                    <option id='language-de' data-content="<span class='flag-icon flag-icon-de'></span>" value='de' selected></option>
+                    <option id='language-de' data-content="<span class='flag-icon flag-icon-de'></span>" value='de'></option>
                     <option id='language-pl' data-content="<span class='flag-icon flag-icon-pl'></span>" value='pl'></option>
                 </select>
             </div>
@@ -70,39 +70,58 @@
 
             const language = document.querySelector('#language-select');
 
+            showHideTranslate = () => {
+                let selectedLanguage = localStorage.getItem('language');
+                const allTranslateFlag = document.querySelectorAll('[data-translate-flag="true"]');
+
+                if(selectedLanguage=='de'){
+                    for(let i=0;i<allTranslateFlag.length;i++){
+                        allTranslateFlag[i].style.display='none';
+                    }
+                } else {
+                    for(let i=0;i<allTranslateFlag.length;i++){
+                        allTranslateFlag[i].style.display='inline-block'; // spans
+                    }
+                    allTranslateFlag[0].style.display='block'; // paragraph
+                };
+            }
+
             changeLanguage = () => {
                 const language = document.querySelector('#language-select');
-                localStorage.setItem('language', language.value);
+                if (localStorage.getItem('language')==null || localStorage.getItem('language')=='de'){
+                    localStorage.setItem('language', 'pl');
+                } else {
+                    localStorage.setItem('language', 'de');
+                }
+                showHideTranslate();
             }
 
             language.addEventListener('change',changeLanguage);
 
             if (localStorage.getItem('language')===null){
-                localStorage.setItem('language', language.value);
+                localStorage.setItem('language', 'de');
             } else {
                 const languageDE = document.querySelector("#language-de");
                 const languagePL = document.querySelector("#language-pl");
                 const innerCountryFlag = document.querySelector(".filter-option-inner-inner");
 
                 if(localStorage.getItem('language')==='de'){
-                    languagePL.selected = false;
-                    languageDE.selected = true;
+                    language.selectedIndex = 0;
                     let span = document.createElement('span');
                     innerCountryFlag.firstChild.remove();
                     span.classList.add('flag-icon', 'flag-icon-de');
                     innerCountryFlag.appendChild(span);
                 }
                 if(localStorage.getItem('language')==='pl'){
-                    languageDE.selected = false;
-                    languagePL.selected = true;
+                    language.selectedIndex = 1;
                     let span = document.createElement('span');
                     innerCountryFlag.firstChild.remove();
                     span.classList.add('flag-icon', 'flag-icon-pl');
                     innerCountryFlag.appendChild(span);
                 }
             }
+            showHideTranslate();
         });
-
     </script>
 
     {% block javascript %}

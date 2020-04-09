@@ -2,10 +2,17 @@
 
 {% block content %}
     <div class='text-center m-2 p-2 account-bg'>
+        <h6 data-translate-flag='true'>aby uzyskać tłumaczenie na język polski najedź myszką na ikonę: <span class='flag-icon flag-icon-pl'></span> znajdującą się obok pytania lub odpowiedzi</h6>
         <button class='btn btn-secondary' type='button' id='draw-new-question-btn'><i class="far fa-file"></i> random question</button>
         <button class='btn btn-secondary' type='button' id='check-question-btn'><i class="fas fa-tasks"></i> check question</button>
-        <p>main topic: <span id='main-topic'>{{ all_questions.main_topic_ger }}</span><br>
-        under topic: <span id='under-topic'>{{ all_questions.main_topic_ger }}</span></p>
+        <p>
+            main topic:
+            <span id='main-topic-ger'>...</span>
+            <span id='main-topic-pl' class='flag-icon flag-icon-pl' data-translate-flag='true' data-toggle='tooltip' data-placement='top'></span><br>
+            under topic:
+            <span id='under-topic-ger'>...</span>
+            <span id='under-topic-pl' class='flag-icon flag-icon-pl' data-translate-flag='true' data-toggle='tooltip' data-placement='top'></span>
+        </p>
     </div>
     <div class='account-bg m-2 p-2'>
         <div class='text-center'>
@@ -15,10 +22,10 @@
                 </span>
             </p>
             <p>
-                <span id='question'>
+                <span id='question-ger'>
                     ...
                 </span>
-                <span data-toggle="tooltip" data-placement="top" title="translate">
+                <span id='question-pl' data-translate-flag='true' data-toggle="tooltip" data-placement="top">
                     <span class='flag-icon flag-icon-pl'></span>
                 </span>
             </p>
@@ -28,24 +35,27 @@
                 <div class='col-6 offset-3'>
                     <input class='form-check-input' type='radio' name='answers' id='answer-A'>
                     <label class='form-check-label' for='answer-A' id='answer-A-label'>
-                        all_questions.answer_a_ger
+                        ...
                     </label>
+                    <span id='answer-A-pl' class='flag-icon flag-icon-pl' data-translate-flag='true' data-toggle='tooltip' data-placement='top'></span>
                 </div>
             </div>
             <div class='form-check'>
                 <div class='col-6 offset-3'>
                     <input class='form-check-input' type='radio' name='answers' id='answer-B'>
                     <label class='form-check-label' for='answer-B' id='answer-B-label'>
-                        all_questions.answer_b_ger
+                        ...
                     </label>
+                    <span id='answer-B-pl' class='flag-icon flag-icon-pl' data-translate-flag='true' data-toggle='tooltip' data-placement='top'></span>
                 </div>
             </div>
             <div class='form-check'>
                 <div class='col-6 offset-3'>
                     <input class='form-check-input' type='radio' name='answers' id='answer-C'>
                     <label class='form-check-label' for='answer-C' id='answer-C-label'>
-                        all_questions.answer_c_ger
+                        ...
                     </label>
+                    <span id='answer-C-pl' class='flag-icon flag-icon-pl' data-translate-flag='true' data-toggle='tooltip' data-placement='top'></span>
                 </div>
             </div>
         </div>
@@ -74,9 +84,6 @@
 
 {% block javascript %}
     <script>
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
 
         makeQuestionsData = () => {
             const questions = [];
@@ -87,13 +94,21 @@
                 nextQuestion = {};
                 nextQuestion.questionId = parseInt('{{ question.question_id }}');
                 nextQuestion.mainTopicGer = '{{ question.main_topic_ger }}';
+                nextQuestion.mainTopicPl = '{{ question.main_topic_pl }}';
                 nextQuestion.underTopicGer = '{{ question.under_topic_ger }}';
+                nextQuestion.underTopicPl = '{{ question.under_topic_pl }}';
                 nextQuestion.questionGer = '{{ question.question_ger }}';
+                nextQuestion.questionPl = '{{ question.question_pl }}';
                 answersGer = [];
                 answersGer.push('{{ question.answer_a_ger }}');
                 answersGer.push('{{ question.answer_b_ger }}');
                 answersGer.push('{{ question.answer_c_ger }}');
                 nextQuestion.answersGer = answersGer;
+                answersPl = [];
+                answersPl.push('{{ question.answer_a_pl }}');
+                answersPl.push('{{ question.answer_b_pl }}');
+                answersPl.push('{{ question.answer_c_pl }}');
+                nextQuestion.answersPl = answersPl;
                 nextQuestion.correctAnswerGer = '{{ question.correct_answer_ger }}';
                 questions.push(nextQuestion);
             {% endfor %}
@@ -109,9 +124,23 @@
 
         prepareQuestion = (question) => {
             document.querySelector('#question-id').textContent = question.questionId;
-            document.querySelector('#main-topic').textContent = question.mainTopicGer;
-            document.querySelector('#under-topic').textContent = question.underTopicGer;
-            document.querySelector('#question').textContent = question.questionGer;
+            document.querySelector('#main-topic-ger').textContent = question.mainTopicGer + ' ';
+
+            $(function(){
+                $('#main-topic-pl').tooltip('dispose').tooltip({title:question.mainTopicPl}).tooltip();
+            })
+
+            document.querySelector('#under-topic-ger').textContent = question.underTopicGer + ' ';
+
+            $(function(){
+                $('#under-topic-pl').tooltip('dispose').tooltip({title:question.underTopicPl}).tooltip();
+            })
+
+            document.querySelector('#question-ger').textContent = question.questionGer;
+
+            $(function(){
+                $('#question-pl').tooltip('dispose').tooltip({title:question.questionPl}).tooltip();
+            })
 
             const shuffledAnswerIndexs = shuffleQuestionsAnswer(); // returns array 0,1,2 in random order
             document.querySelector('#answer-A-label').textContent = question.answersGer[shuffledAnswerIndexs[0]];
@@ -119,8 +148,22 @@
             document.querySelector('#answer-C-label').textContent = question.answersGer[shuffledAnswerIndexs[2]];
 
             document.querySelector('#answer-A').value = question.answersGer[shuffledAnswerIndexs[0]];
+
+            $(function(){
+                $('#answer-A-pl').tooltip('dispose').tooltip({title:question.answersPl[shuffledAnswerIndexs[0]]}).tooltip();
+            })
+
             document.querySelector('#answer-B').value = question.answersGer[shuffledAnswerIndexs[1]];
+
+            $(function(){
+                $('#answer-B-pl').tooltip('dispose').tooltip({title:question.answersPl[shuffledAnswerIndexs[1]]}).tooltip();
+            })
+
             document.querySelector('#answer-C').value = question.answersGer[shuffledAnswerIndexs[2]];
+
+            $(function(){
+                $('#answer-C-pl').tooltip('dispose').tooltip({title:question.answersPl[shuffledAnswerIndexs[2]]}).tooltip();
+            })
             
             uncheckedRadios();
         }
@@ -166,6 +209,7 @@
         checkQuestionButton.addEventListener('click',checkQuestion);
 
         drawQuestion();
+        showHideTranslate();
 
     </script>
 {% endblock %}
