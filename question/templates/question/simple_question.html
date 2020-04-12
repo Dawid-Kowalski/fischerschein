@@ -61,23 +61,25 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id='check-question-modal' tabindex="-1" role="dialog" aria-labelledby="chec-question-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body" id='modal-body'>
-              ...
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id='check-question-label'>Results</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id='check-result-modal-body'></p>
+                    <p id='correct-answer-modal-body'></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="far fa-copy"></i> try again</button>
+                    <button id='modal-correct-answer-btn' type="button" class="btn btn-secondary"><i class="far fa-check-circle"></i> correct answer</button>
+                    <button id='modal-new-question-btn' type="button" class="btn btn-secondary" data-dismiss="modal"><i class="far fa-file"></i> new question </button>
+                </div>
+             </div>
         </div>
       </div>
 {% endblock %}
@@ -197,9 +199,9 @@
             const questionId = parseInt(document.querySelector('#question-id').textContent);
             const allQuestions = makeQuestionsData();
             const correctAnswer = allQuestions[questionId-1].correctAnswerGer; // index in array from 0, questions from 1
-            const modalBody = document.querySelector('#modal-body');
+            const modalBody = document.querySelector('#check-result-modal-body');
             userAnswer == correctAnswer ? modalBody.textContent= 'correct' : modalBody.textContent = 'false';
-            $("#exampleModal").modal()
+            $("#check-question-modal").modal()
         }
 
         const drawNewQuestionButton = document.querySelector('#draw-new-question-btn');
@@ -207,6 +209,33 @@
 
         const checkQuestionButton = document.querySelector('#check-question-btn');
         checkQuestionButton.addEventListener('click',checkQuestion);
+
+        showHideTranslate = () => {
+            let selectedLanguage = localStorage.getItem('language');
+            const allTranslateFlag = document.querySelectorAll('[data-translate-flag="true"]');
+
+            if(selectedLanguage=='de'){
+                for(let i=0;i<allTranslateFlag.length;i++){
+                    allTranslateFlag[i].style.display='none';
+                }
+            } else {
+                for(let i=0;i<allTranslateFlag.length;i++){
+                    allTranslateFlag[i].style.display='inline-block'; // spans
+                }
+                allTranslateFlag[0].style.display='block'; // paragraph
+            };
+        }
+
+        const modalNewQuestionBtn = document.querySelector('#modal-new-question-btn');
+        modalNewQuestionBtn.addEventListener('click',drawQuestion);
+
+        showCorrectAnswer = () => {
+            const correctAnswerInModal = document.querySelector('#correct-answer-modal-body');
+            correctAnswerInModal.textContent = 'something';
+        }
+
+        const modalCorrectAnswerBtn = document.querySelector('#modal-correct-answer-btn');
+        modalCorrectAnswerBtn.addEventListener('click',showCorrectAnswer);
 
         drawQuestion();
         showHideTranslate();

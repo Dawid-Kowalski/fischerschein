@@ -5,7 +5,7 @@
         <h6 data-translate-flag='true'>aby uzyskać tłumaczenie na język polski najedź myszką na ikonę: <span class='flag-icon flag-icon-pl'></span> znajdującą się obok pytania lub odpowiedzi</h6>
         <button class='btn btn-secondary' type='button' id='new-test-btn'><i class="far fa-file"></i> new test</button>
         <button class='btn btn-secondary' type='button' id='check-test-btn'><i class="fas fa-tasks"></i> check test</button>
-        <button class='btn btn-secondary' type='button' data-toggle="modal" data-target="#exampleModal" id='check-test-btn'><i class="fas fa-info"></i> test info</button>
+        <button class='btn btn-secondary' type='button' data-toggle="modal" data-target='#test-info-modal' id='check-test-btn'><i class="fas fa-info"></i> test info</button>
     </div>
 
     <div id='test'>
@@ -30,41 +30,45 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="test-info-modal" tabindex="-1" role="dialog" aria-labelledby="test-info-modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <h5 class="modal-title" id='test-info-modal-label'>Test info</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-              ...
+            <div class='modal-body'>
+              Test Info
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="test-answer-modal" tabindex="-1" role="dialog" aria-labelledby="test-answer-modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <h5 class="modal-title" id="test-answer-modal-label">Test Results</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <p id='correct-answer-result'>correct answer</p>
+                <p>correct answer:<span id='correct-answer-result'>0</span></p>
+                <p>Fisch Build: <span id='fisch-build-results'>0</span></p>
+                <p>Water protection: <span id='water-protection-results'>0</span></p>
+                <p>Fisching equipment: <span id='fisching-equipment-results'>0</span></p>
+                <p>Handling of cougthing fish: <span id='handling-of-caught-fish-results'>0</span></p>
+                <p>Law: <span id='law-results'>0</span></p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="far fa-copy"></i> try again</button>
+                <button id='new-test-in-modal-btn' type="button" class="btn btn-secondary" data-dismiss='modal'><i class="far fa-check-circle"></i> new test</button>
             </div>
           </div>
         </div>
@@ -276,6 +280,22 @@
             }
         }
 
+        showHideTranslate = () => {
+            let selectedLanguage = localStorage.getItem('language');
+            const allTranslateFlag = document.querySelectorAll('[data-translate-flag="true"]');
+
+            if(selectedLanguage=='de'){
+                 for(let i=0;i<allTranslateFlag.length;i++){
+                    allTranslateFlag[i].style.display='none';
+                }
+             } else {
+                for(let i=0;i<allTranslateFlag.length;i++){
+                    allTranslateFlag[i].style.display='inline-block'; // spans
+                 }
+                 allTranslateFlag[0].style.display='block'; // paragraph
+            };
+        }
+
         prepareTest = () => {
             removePreviousTest();
             const selectedQuestion = makeSelectedQuestionsData();
@@ -284,6 +304,7 @@
             }
             hideAllQuestions();
             showQuestionFromTopic(1);
+            showHideTranslate();
         }
 
         prepareTest();
@@ -315,6 +336,7 @@
 
         getCorrectAnswer = (selectedQuestionsGlobal) => {
             const correctAnswerGer = [];
+
             for(i=0;i<selectedQuestionsGlobal.length;i++){
                 correctAnswerGer.push(selectedQuestionsGlobal[i].correctAnswerGer);
             }
@@ -323,16 +345,51 @@
 
         checkTest = () => {
             const correctAnswerResult = document.querySelector('#correct-answer-result');
+            const fischBuildResults = document.querySelector('#fisch-build-results');
+            const waterProtectionResults = document.querySelector('#water-protection-results');
+            const fischingEquipmentResults = document.querySelector('#fisching-equipment-results');
+            const handlingOfCoughtFishResults = document.querySelector('#handling-of-caught-fish-results');
+            const lawResults = document.querySelector('#law-results');
+           
             const userAnswers = getUserAnswers();
             const correctAnswer = getCorrectAnswer(selectedQuestionsGlobal);
+
             let points = 0;
+            let pointsFischBuild = 0;
+            let pointsWaterProtection = 0;
+            let pointsFishingEquipment = 0;
+            let pointsHandlingOfCouthFish = 0;
+            let pointsLaw = 0;
+
             for(let i=0;i<userAnswers.length;i++){
                 if(userAnswers[i]==correctAnswer[i]){
                     points++;
+                    if(i<=11){
+                        pointsFischBuild++;
+                    }
+                    if(i>11 && i<=23){
+                        pointsWaterProtection++;
+                    }
+                    if(i>23 && i<=35){
+                        pointsFishingEquipment++;
+                    }
+                    if(i>35 && i<=47){
+                        pointsHandlingOfCouthFish++;
+                    }
+                    if(i>47 && i<=59){
+                        pointsLaw++;
+                    }
                 }
             }
-            correctAnswerResult.textContent = `correct answer: ${points}`;
-            $('#exampleModal2').modal();
+
+            correctAnswerResult.textContent = points;
+            fischBuildResults.textContent = ` ${pointsFischBuild} (${(pointsFischBuild/12 * 100).toFixed(2)}%)`; // format: (100.00%)
+            waterProtectionResults.textContent = ` ${pointsWaterProtection} (${(pointsWaterProtection/12 * 100).toFixed(2)}%)`;
+            fischingEquipmentResults.textContent = ` ${pointsFishingEquipment} (${(pointsFishingEquipment/12 * 100).toFixed(2)}%)`;
+            handlingOfCoughtFishResults.textContent = ` ${pointsHandlingOfCouthFish} (${(pointsHandlingOfCouthFish/12 * 100).toFixed(2)}%)`;
+            lawResults.textContent =  ` ${pointsLaw} (${(pointsLaw/12 * 100).toFixed(2)}%)`;
+
+            $('#test-answer-modal').modal();
         }
 
         checkTestButton.addEventListener('click',checkTest);
@@ -366,6 +423,10 @@
                     showQuestionFromTopic(5)
             }
         );
+
+        const newTestInModatBtn = document.querySelector('#new-test-in-modal-btn');
+
+        newTestInModatBtn.addEventListener('click',prepareTest);
 
     </script>
 {% endblock %}
