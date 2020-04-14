@@ -1,0 +1,79 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-14 14:55+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
+"%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
+"%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+
+msgid "einzelne Frage"
+msgstr "pojedyńcze pytanie"
+
+msgid "vollständiger Test"
+msgstr "pełny test"
+
+msgid "über Fischereischein"
+msgstr "o Fischereischein"
+
+msgid "über das Projekt und mich"
+msgstr "o mnie i projekcie"
+
+msgid "Machen Sie sich bereit für die Fischerscheinprüfung in Brandenburg"
+msgstr "przygotuj się do egzaminu na karte wędkarską w Brandenburgii"
+
+msgid "schnell, einfach und kostenlos"
+msgstr "szybko, łatwo i bezpłatnie"
+
+msgid "ohne ein Konto zu erstellen"
+msgstr "bez rejestracji"
+
+msgid "Zeichnen Sie aus 600 offiziellen Testfragen, beantworten Sie und überprüfen Sie die Antwort"
+msgstr "wylosuj z 600 oficjalnych pytań, odpowiedz i sprawdż odpowiedź"
+
+msgid "Zeichnen Sie den Test nach offiziellen Regeln - 60 Fragen, 12 Fragen aus jeder Testabteilung und überprüfen Sie das Ergebnis"
+msgstr "wylosuj test według oficjalnych reguł - 60 pytań, 12 pytań z każdej dziedziny rozwiąż i sprawdź wynik"
+
+msgid "Informationen über Fischereischein lesen"
+msgstr "przeczytaj informacje o Fischerschein"
+
+msgid "Konto erstellen"
+msgstr "utwórz konto"
+
+msgid "einloggen"
+msgstr "zaloguj"
+
+msgid "Überprüfen Sie den Fortschritt"
+msgstr "sprawdzaj postępy"
+
+msgid "Überprüfen Sie den Fortschritt nach Thema und im Laufe der Zeit"
+msgstr "sprawdzaj postępy według tematów i z biegiem czasu"
+
+msgid "flexibel"
+msgstr "elastycznie"
+
+msgid "Lernen Sie durch Auswahl, Frage, Test oder Themenbereich"
+msgstr "ucz się według pytań, testów lub tematami"
+
+msgid "zu jeder Zeit"
+msgstr "w dowolnym czasie"
+
+msgid "Lernen Sie auf Ihrem Computer oder Smartphone"
+msgstr "ucz się na komputerze lub smartphonie"
+
+msgid "Derzeit suche ich ein bezahltes Praktikum oder arbeite auf Junior-Ebene in Berlin im Webbereich. Meine Lieblingssprachen sind Javascript und Python. Weitere Informationen finden Sie auf 'Über mich und das Projekt' Seite. Das Projekt wurde für ein Portfolio erstellt. Es wurde hauptsächlich in Python (Django) und Javascript sowie in HTML, CSS und Bootstrap durchgeführt. Es verwendet MySQl als Datenbank."
+msgstr "Obecnie szukam płatnego stażu lub pracy na poziomie juniorskim w Berlinie. Moje ulubione technologie to Javascript i Python. Więcje informacji można znaleźć w zakładce 'o mnie i projekcie'. Projekt został zrobiony do portfolio głównie w Python(Django) i Javascript, do tego HTML,CSS i Bootstrap. Projekt używa MySQL jako bazy danych"
+

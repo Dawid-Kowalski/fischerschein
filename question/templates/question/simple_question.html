@@ -211,10 +211,11 @@
         checkQuestionButton.addEventListener('click',checkQuestion);
 
         showHideTranslate = () => {
-            let selectedLanguage = localStorage.getItem('language');
-            const allTranslateFlag = document.querySelectorAll('[data-translate-flag="true"]');
 
-            if(selectedLanguage=='de'){
+            const allTranslateFlag = document.querySelectorAll('[data-translate-flag="true"]');
+            const selectedLanguage = document.querySelector('#language-select');
+
+            if(selectedLanguage.value=='de'){
                 for(let i=0;i<allTranslateFlag.length;i++){
                     allTranslateFlag[i].style.display='none';
                 }

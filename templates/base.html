@@ -1,4 +1,6 @@
+{% load i18n %}
 {% load static %}
+
 <!DOCTYPE html>
 <html translate="no">
 <head>
@@ -20,7 +22,6 @@
         gtag('js', new Date());
         gtag('config', 'UA-163432324-1');
     </script>
-    <script data-ad-client="ca-pub-3877152660583971" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
 </head>
 <body class="notranslate">
@@ -32,35 +33,44 @@
         <div class='collapse navbar-collapse' id='navbarNavAltMarkup'>
             <ul class='navbar-nav mr-auto'>
                 <li class='nav-item active'>
-                    <a class='nav-item nav-link' href='{% url "question:simple_question" %}'><i class="far fa-comment"></i> Simple Question</a>
+                    <a class='nav-item nav-link' href='{% url "question:simple_question" %}'><i class="far fa-comment"></i> {% trans "einzelne Frage" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class='nav-item nav-link' href='{% url "question:simple_test" %}'><i class="far fa-comments"></i> Simple Test</a>
+                    <a class='nav-item nav-link' href='{% url "question:simple_test" %}'><i class="far fa-comments"></i> {% trans "vollständiger Test" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class='nav-item nav-link' href='#'><i class="fas fa-info"></i> About Fischerschein</a>
+                    <a class='nav-item nav-link' href='#'><i class="fas fa-info"></i> {% trans "über Fischereischein" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class='nav-item nav-link' href='#'><i class="far fa-clipboard"></i> FAQ</a>
+                    <a class='nav-item nav-link' href='#'><i class="far fa-clipboard"></i>FAQ</a>
                 </li>
                 <li class="nav-item">
-                    <a class='nav-item nav-link' href='#'><i class="fas fa-user-tie"></i> About project and me</a>
+                    <a class='nav-item nav-link' href='#'><i class="fas fa-user-tie"></i>{% trans "über das Projekt und mich" %}</a>
                 </li>
             </ul>
             <div class="form-inline my-2 my-lg-0">
-                language:  
-                <select id='language-select' data-show-content='true' class='form-control selectpicker'>
-                    <option id='language-de' data-content="<span class='flag-icon flag-icon-de'></span>" value='de'></option>
-                    <option id='language-pl' data-content="<span class='flag-icon flag-icon-pl'></span>" value='pl'></option>
-                </select>
+                language:
+                <form id='change-lang-form' action='{% url "set_language" %}' method='post'>
+                    {% csrf_token %}
+                    <input type='hidden' name='text' value='{{ redirect_to }}'>
+                    <select name='language' id='language-select' data-show-content='true' class='form-control selectpicker'>
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% for language in languages %}
+                            <option id='language-{{ language.code }}' data-content="<span class='flag-icon flag-icon-{{ language.code }}'>" value='{{ language.code }}' {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
             </div>
         </div>
     </nav>
     <div class='hero-image'>
         <div class='hero-text'>
-            <h1>prepare for the Fischereischein exam in Brandenburg</h1>
+            <h1>{% trans "Machen Sie sich bereit für die Fischerscheinprüfung in Brandenburg" %}</h1>
             <p>
-                <span>fast, easly and for free</span>
+                <span>{% trans "schnell, einfach und kostenlos" %}</span>
             </p>
         </div>
     </div>
@@ -81,10 +91,11 @@
             const language = document.querySelector('#language-select');
 
             showHideTranslate = () => {
-                let selectedLanguage = localStorage.getItem('language');
-                const allTranslateFlag = document.querySelectorAll('[data-translate-flag="true"]');
 
-                if(selectedLanguage=='de'){
+                const allTranslateFlag = document.querySelectorAll('[data-translate-flag="true"]');
+                const selectedLanguage = document.querySelector('#language-select');
+
+                if(selectedLanguage.value=='de'){
                     for(let i=0;i<allTranslateFlag.length;i++){
                         allTranslateFlag[i].style.display='none';
                     }
@@ -97,41 +108,38 @@
             }
 
             changeLanguage = () => {
-                const language = document.querySelector('#language-select');
-                if (localStorage.getItem('language')==null || localStorage.getItem('language')=='de'){
-                    localStorage.setItem('language', 'pl');
-                } else {
-                    localStorage.setItem('language', 'de');
-                }
-                showHideTranslate();
-            }
 
-            language.addEventListener('change',changeLanguage);
+                const languageSelect = document.querySelector('#language-select');
 
-            if (localStorage.getItem('language')===null){
-                localStorage.setItem('language', 'de');
-            } else {
+                const languageForm = document.querySelector('#change-lang-form');
+
                 const languageDE = document.querySelector("#language-de");
                 const languagePL = document.querySelector("#language-pl");
                 const innerCountryFlag = document.querySelector(".filter-option-inner-inner");
 
-                if(localStorage.getItem('language')==='de'){
+                if(languageSelect.value==='de'){
                     language.selectedIndex = 0;
                     let span = document.createElement('span');
                     innerCountryFlag.firstChild.remove();
                     span.classList.add('flag-icon', 'flag-icon-de');
                     innerCountryFlag.appendChild(span);
                 }
-                if(localStorage.getItem('language')==='pl'){
+                if(languageSelect.value==='pl'){
                     language.selectedIndex = 1;
                     let span = document.createElement('span');
                     innerCountryFlag.firstChild.remove();
                     span.classList.add('flag-icon', 'flag-icon-pl');
                     innerCountryFlag.appendChild(span);
                 }
+
+                languageForm.submit();
+                showHideTranslate();
             }
-            showHideTranslate();
+
+            language.addEventListener('change',changeLanguage);
+
         });
+
     </script>
 
     {% block javascript %}
