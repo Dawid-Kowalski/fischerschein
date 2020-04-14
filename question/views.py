@@ -12,3 +12,12 @@ def simple_test(request):
 
 def main_page(request):
     return render(request,'question/main_page.html')
+
+def fischerschein_info(request):
+    return render(request,'question/fischerschein_info.html')
+
+def FAQ(request):
+    return render(request,'question/FAQ.html')
+
+def project_info(request):
+    return render(request,'question/project_info.html')

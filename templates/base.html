@@ -39,13 +39,13 @@
                     <a class='nav-item nav-link' href='{% url "question:simple_test" %}'><i class="far fa-comments"></i> {% trans "vollständiger Test" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class='nav-item nav-link' href='#'><i class="fas fa-info"></i> {% trans "über Fischereischein" %}</a>
+                    <a class='nav-item nav-link' href='{% url "question:fischerschein_info" %}'><i class="fas fa-info"></i> {% trans "über Fischereischein" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class='nav-item nav-link' href='#'><i class="far fa-clipboard"></i>FAQ</a>
+                    <a class='nav-item nav-link' href='{% url "question:FAQ" %}'><i class="far fa-clipboard"></i> FAQ</a>
                 </li>
                 <li class="nav-item">
-                    <a class='nav-item nav-link' href='#'><i class="fas fa-user-tie"></i>{% trans "über das Projekt und mich" %}</a>
+                    <a class='nav-item nav-link' href='{% url "question:project_info" %}'><i class="fas fa-user-tie"></i> {% trans "über das Projekt und mich" %}</a>
                 </li>
             </ul>
             <div class="form-inline my-2 my-lg-0">

@@ -2,64 +2,66 @@
 {% load i18n %}
 {% load static %}
 {% block content %}
-    <div class='row'>
-        <div class='col text-center ml-4 mb-4 mt-4 mr-2 d-flex'>
-            <div class='col-md-12 border p-3 account-bg'>
-                <h3>{% trans "ohne ein Konto zu erstellen" %}</h3>
-                <p><i class="fas fa-hand-point-right"></i> {% trans "Zeichnen Sie aus 600 offiziellen Testfragen, beantworten Sie und überprüfen Sie die Antwort" %}</p>
-                <p><i class="fas fa-hand-point-right"></i> {% trans "Zeichnen Sie den Test nach offiziellen Regeln - 60 Fragen, 12 Fragen aus jeder Testabteilung und überprüfen Sie das Ergebnis" %}</p>
-                <p><i class="fas fa-hand-point-right"></i> {% trans "Informationen über Fischereischein lesen" %}</p>
-                <a href='{% url "question:simple_question" %}' class='btn btn-secondary'><i class='far fa-comment'></i>  {% trans "einzelne Frage" %}</a>
-                <a href='{% url "question:simple_test" %}' class='btn btn-secondary'><i class='far fa-comments'></i> {% trans "vollständiger Test" %}</a>
+    <div class='container-fluid'>
+        <div class='row'>
+            <div class='col text-center ml-4 mb-4 mt-4 mr-2 d-flex'>
+                <div class='col-md-12 border p-3 account-bg'>
+                    <h3>{% trans "ohne ein Konto zu erstellen" %}</h3>
+                    <p><i class="fas fa-hand-point-right"></i> {% trans "Zeichnen Sie aus 600 offiziellen Testfragen, beantworten Sie und überprüfen Sie die Antwort" %}</p>
+                    <p><i class="fas fa-hand-point-right"></i> {% trans "Zeichnen Sie den Test nach offiziellen Regeln - 60 Fragen, 12 Fragen aus jeder Testabteilung und überprüfen Sie das Ergebnis" %}</p>
+                    <p><i class="fas fa-hand-point-right"></i> {% trans "Informationen über Fischereischein lesen" %}</p>
+                    <a href='{% url "question:simple_question" %}' class='btn btn-secondary'><i class='far fa-comment'></i>  {% trans "einzelne Frage" %}</a>
+                    <a href='{% url "question:simple_test" %}' class='btn btn-secondary'><i class='far fa-comments'></i> {% trans "vollständiger Test" %}</a>
+                </div>
+            </div>
+            <div class='col text-center mr-4 mb-4 mt-4 ml-2 d-flex'>
+                <div class='col-md-12 border p-3 account-bg'>
+                    <h3>{% trans "Konto erstellen" %}</h3>
+                    <p>* ..........</p>
+                    <p>* ..........</p>
+                    <p>* ..........</p>
+                    <p>* ..........</p>
+                    <p>* ..........</p>
+                    <a href='{% url "account:register" %}' class='btn btn-secondary'><i class="fas fa-user-plus"></i> {% trans "Konto erstellen" %}</a>
+                    <a href='{% url "account:login" %}' class='btn btn-secondary'><i class="fas fa-user-check"></i> {% trans "einloggen" %}</a>
+                </div>
             </div>
         </div>
-        <div class='col text-center mr-4 mb-4 mt-4 ml-2 d-flex'>
-            <div class='col-md-12 border p-3 account-bg'>
-                <h3>{% trans "Konto erstellen" %}</h3>
-                <p>* ..........</p>
-                <p>* ..........</p>
-                <p>* ..........</p>
-                <p>* ..........</p>
-                <p>* ..........</p>
-                <a href='{% url "account:register" %}' class='btn btn-secondary'><i class="fas fa-user-plus"></i> {% trans "Konto erstellen" %}</a>
-                <a href='{% url "account:login" %}' class='btn btn-secondary'><i class="fas fa-user-check"></i> {% trans "einloggen" %}</a>
+        <div class='row text-center'>
+            <div class='col'>
+                <span class='icon-benefit'>
+                    <i class="fas fa-chart-line"></i>
+                </span>
+                <h4>{% trans "Überprüfen Sie den Fortschritt" %}</h4>
+                <p>{% trans "Überprüfen Sie den Fortschritt nach Thema und im Laufe der Zeit" %}</p>
+            </div>
+            <div class='col'>
+                <span class='icon-benefit'>
+                    <i class="fas fa-walking"></i>
+                </span>
+                <h4>{% trans "flexibel" %}</h4>
+                <p>{% trans "Lernen Sie durch Auswahl, Frage, Test oder Themenbereich" %}</p>
+            </div>
+            <div class='col'>
+                <span class='icon-benefit'>
+                    <i class="fas fa-mobile-alt"></i>
+                </span>
+                <h4>{% trans "zu jeder Zeit" %}</h4>
+                <p>{% trans "Lernen Sie auf Ihrem Computer oder Smartphone" %}</p>
             </div>
         </div>
+        <div class='row m-4 account-bg'>
+            <div class='col-4 d-flex'>
+                <img class='img-fluid rounded-circle align-self-center mx-auto my-img p-2' src='{% static "img/my-photo-square.jpg" %}'>
+            </div>
+            <div class='col-8 d-flex'>
+                <div class='align-self-center mx-auto'>
+                    <h4> {% trans "über das Projekt und mich" %}</h4>
+                    <p>
+                        {% trans "Derzeit suche ich ein bezahltes Praktikum oder arbeite auf Junior-Ebene in Berlin im Webbereich. Meine Lieblingssprachen sind Javascript und Python. Weitere Informationen finden Sie auf 'Über mich und das Projekt' Seite. Das Projekt wurde für ein Portfolio erstellt. Es wurde hauptsächlich in Python (Django) und Javascript sowie in HTML, CSS und Bootstrap durchgeführt. Es verwendet MySQl als Datenbank." %}
+                    </p>
+                </div>
+            </div>
+         </div>
     </div>
-    <div class='row text-center'>
-        <div class='col'>
-            <span class='icon-benefit'>
-                <i class="fas fa-chart-line"></i>
-            </span>
-            <h4>{% trans "Überprüfen Sie den Fortschritt" %}</h4>
-            <p>{% trans "Überprüfen Sie den Fortschritt nach Thema und im Laufe der Zeit" %}</p>
-        </div>
-        <div class='col'>
-            <span class='icon-benefit'>
-                <i class="fas fa-walking"></i>
-            </span>
-            <h4>{% trans "flexibel" %}</h4>
-            <p>{% trans "Lernen Sie durch Auswahl, Frage, Test oder Themenbereich" %}</p>
-        </div>
-        <div class='col'>
-            <span class='icon-benefit'>
-                <i class="fas fa-mobile-alt"></i>
-            </span>
-            <h4>{% trans "zu jeder Zeit" %}</h4>
-            <p>{% trans "Lernen Sie auf Ihrem Computer oder Smartphone" %}</p>
-        </div>
-    </div>
-    <div class='row m-4 account-bg'>
-        <div class='col-4 d-flex'>
-            <img class='img-fluid rounded-circle align-self-center mx-auto my-img p-2' src='{% static "img/my-photo-square.jpg" %}'>
-        </div>
-        <div class='col-8 d-flex'>
-            <div class='align-self-center mx-auto'>
-                <h4> {% trans "über das Projekt und mich" %}</h4>
-                <p>
-                    {% trans "Derzeit suche ich ein bezahltes Praktikum oder arbeite auf Junior-Ebene in Berlin im Webbereich. Meine Lieblingssprachen sind Javascript und Python. Weitere Informationen finden Sie auf 'Über mich und das Projekt' Seite. Das Projekt wurde für ein Portfolio erstellt. Es wurde hauptsächlich in Python (Django) und Javascript sowie in HTML, CSS und Bootstrap durchgeführt. Es verwendet MySQl als Datenbank." %}
-                </p>
-            </div>
-        </div>
-     </div>
 {% endblock %}

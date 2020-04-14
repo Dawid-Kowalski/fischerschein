@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-14 14:55+0200\n"
+"POT-Creation-Date: 2020-04-14 19:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,3 +77,65 @@ msgstr "ucz się na komputerze lub smartphonie"
 msgid "Derzeit suche ich ein bezahltes Praktikum oder arbeite auf Junior-Ebene in Berlin im Webbereich. Meine Lieblingssprachen sind Javascript und Python. Weitere Informationen finden Sie auf 'Über mich und das Projekt' Seite. Das Projekt wurde für ein Portfolio erstellt. Es wurde hauptsächlich in Python (Django) und Javascript sowie in HTML, CSS und Bootstrap durchgeführt. Es verwendet MySQl als Datenbank."
 msgstr "Obecnie szukam płatnego stażu lub pracy na poziomie juniorskim w Berlinie. Moje ulubione technologie to Javascript i Python. Więcje informacji można znaleźć w zakładce 'o mnie i projekcie'. Projekt został zrobiony do portfolio głównie w Python(Django) i Javascript, do tego HTML,CSS i Bootstrap. Projekt używa MySQL jako bazy danych"
 
+msgid "eine Frage zeichnen"
+msgstr "wylosuj pytanie"
+
+msgid "überprüfen"
+msgstr "sprawdź"
+
+msgid "Sachgebiet"
+msgstr "dział"
+
+msgid "Untersachgebiet"
+msgstr "podział"
+
+msgid "Frage"
+msgstr "pytanie"
+
+msgid "Ergebnis"
+msgstr "wynik"
+
+msgid "nochmal versuchen"
+msgstr "spróbuj ponownie"
+
+msgid "richtige Antwort"
+msgstr "prawidłowa odpowiedź"
+
+msgid "neue Frage"
+msgstr "nowe pytanie"
+
+msgid "neuer Test"
+msgstr "nowy test"
+
+msgid "Test prüfen"
+msgstr "sprawdź test"
+
+msgid "Testbeschreibung"
+msgstr "opis testu"
+
+msgid "nächste Fragen aus diesem Test"
+msgstr "następne pytania z testu"
+
+msgid "Fischkunde und -hege"
+msgstr "budowa ryb"
+
+msgid "Pflege der Fischgewässer"
+msgstr "dbanie o miejsca połowu"
+
+msgid "Fanggeräte und deren Gebrauch"
+msgstr "sprzęt wędkarski i jego użycie"
+
+msgid "Behandlung der gefangenen Fische"
+msgstr "obchodzenie się ze złapaną rybą"
+
+msgid "Einschlägige Rechtsvorschriften"
+msgstr "odpowiadające przepisy"
+
+msgid "schließen"
+msgstr "zamknij"
+
+msgid "Testergebnisse"
+msgstr "wyniki testu"
+
+msgid "richtige Antworten"
+msgstr "prawidłowych odpowiedzi"

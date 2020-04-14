@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
     <div class='text-center m-2 p-2 account-bg'>
         <h6 data-translate-flag='true'>aby uzyskać tłumaczenie na język polski najedź myszką na ikonę: <span class='flag-icon flag-icon-pl'></span> znajdującą się obok pytania lub odpowiedzi</h6>
-        <button class='btn btn-secondary' type='button' id='draw-new-question-btn'><i class="far fa-file"></i> random question</button>
-        <button class='btn btn-secondary' type='button' id='check-question-btn'><i class="fas fa-tasks"></i> check question</button>
+        <button class='btn btn-secondary' type='button' id='draw-new-question-btn'><i class="far fa-file"></i> {% trans "eine Frage zeichnen" %}</button>
+        <button class='btn btn-secondary' type='button' id='check-question-btn'><i class="fas fa-tasks"></i> {% trans "überprüfen" %}</button>
         <p>
-            main topic:
+            <span class="font-weight-bold">{% trans "Sachgebiet" %}:</span>
             <span id='main-topic-ger'>...</span>
             <span id='main-topic-pl' class='flag-icon flag-icon-pl' data-translate-flag='true' data-toggle='tooltip' data-placement='top'></span><br>
-            under topic:
+            <span class="font-weight-bold">{% trans "Untersachgebiet" %}:</span>
             <span id='under-topic-ger'>...</span>
             <span id='under-topic-pl' class='flag-icon flag-icon-pl' data-translate-flag='true' data-toggle='tooltip' data-placement='top'></span>
         </p>
     </div>
     <div class='account-bg m-2 p-2'>
         <div class='text-center'>
-            <p>Question:
+            <p>{% trans "Frage" %}:
                 <span id='question-id'>
                     ...
                 </span>
@@ -62,10 +62,10 @@
     </div>
 
     <div class="modal fade" id='check-question-modal' tabindex="-1" role="dialog" aria-labelledby="chec-question-label" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id='check-question-label'>Results</h5>
+                    <h5 class="modal-title" id='check-question-label'>{% trans "Ergebnis" %}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -75,13 +75,13 @@
                     <p id='correct-answer-modal-body'></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="far fa-copy"></i> try again</button>
-                    <button id='modal-correct-answer-btn' type="button" class="btn btn-secondary"><i class="far fa-check-circle"></i> correct answer</button>
-                    <button id='modal-new-question-btn' type="button" class="btn btn-secondary" data-dismiss="modal"><i class="far fa-file"></i> new question </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="far fa-copy"></i> {% trans "nochmal versuchen" %}</button>
+                    <button id='modal-correct-answer-btn' type="button" class="btn btn-secondary"><i class="far fa-check-circle"></i> {% trans "richtige Antwort" %}</button>
+                    <button id='modal-new-question-btn' type="button" class="btn btn-secondary" data-dismiss="modal"><i class="far fa-file"></i> {% trans "neue Frage" %}</button>
                 </div>
              </div>
         </div>
-      </div>
+    </div>
 {% endblock %}
 
 {% block javascript %}

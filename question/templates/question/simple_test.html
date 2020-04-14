@@ -1,32 +1,32 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
     <div class='text-center m-2 p-2 account-bg'>
         <h6 data-translate-flag='true'>aby uzyskać tłumaczenie na język polski najedź myszką na ikonę: <span class='flag-icon flag-icon-pl'></span> znajdującą się obok pytania lub odpowiedzi</h6>
-        <button class='btn btn-secondary' type='button' id='new-test-btn'><i class="far fa-file"></i> new test</button>
-        <button class='btn btn-secondary' type='button' id='check-test-btn'><i class="fas fa-tasks"></i> check test</button>
-        <button class='btn btn-secondary' type='button' data-toggle="modal" data-target='#test-info-modal' id='check-test-btn'><i class="fas fa-info"></i> test info</button>
+        <button class='btn btn-secondary' type='button' id='new-test-btn'><i class="far fa-file"></i> {% trans "neuer Test" %}</button>
+        <button class='btn btn-secondary' type='button' id='check-test-btn'><i class="fas fa-tasks"></i> {% trans "Test prüfen" %}</button>
+        <button class='btn btn-secondary' type='button' data-toggle="modal" data-target='#test-info-modal' id='check-test-btn'><i class="fas fa-info"></i> {% trans "Testbeschreibung" %}</button>
     </div>
 
     <div id='test'>
     </div>
 
-    <h4 class='text-center'>next topic from this test</h4>
+    <h4 class='text-center'>{% trans "nächste Fragen aus diesem Test" %}</h4>
     <div class='row text-center m-2 p-2 account-bg'>
         <div class='col'>
-            <button class='btn btn-secondary' type='button' id='show-topic-1-questions-btn'><i class="fas fa-fish"></i> fisch build</button>
+            <button class='btn btn-secondary' type='button' id='show-topic-1-questions-btn'><i class="fas fa-fish"></i> {% trans "Fischkunde und -hege" %}</button>
         </div>
         <div class='col'>
-            <button class='btn btn-secondary' type='button' id='show-topic-2-questions-btn'><i class="fas fa-hand-holding-water"></i> water protection</button>
+            <button class='btn btn-secondary' type='button' id='show-topic-2-questions-btn'><i class="fas fa-hand-holding-water"></i> {% trans "Pflege der Fischgewässer" %}</button>
         </div>
         <div class='col'>
-            <button class='btn btn-secondary' type='button' id='show-topic-3-questions-btn'><i class="fas fa-fist-raised"></i> fishing equipment</button>
+            <button class='btn btn-secondary' type='button' id='show-topic-3-questions-btn'><i class="fas fa-fist-raised"></i> {% trans "Fanggeräte und deren Gebrauch" %}</button>
         </div>
         <div class='col'>
-            <button class='btn btn-secondary' type='button' id='show-topic-4-questions-btn'><i class="fas fa-shopping-basket"></i> handling of caught fish</button>
+            <button class='btn btn-secondary' type='button' id='show-topic-4-questions-btn'><i class="fas fa-shopping-basket"></i> {% trans "Behandlung der gefangenen Fische" %}</button>
         </div>
         <div class='col'>
-            <button class='btn btn-secondary' type='button' id='show-topic-5-questions-btn'><i class="fas fa-gavel"></i> law</button>
+            <button class='btn btn-secondary' type='button' id='show-topic-5-questions-btn'><i class="fas fa-gavel"></i> {% trans "Einschlägige Rechtsvorschriften" %}</button>
         </div>
     </div>
 
@@ -34,7 +34,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id='test-info-modal-label'>Test info</h5>
+              <h5 class="modal-title" id='test-info-modal-label'>{% trans "Testbeschreibung" %}</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -43,7 +43,7 @@
               Test Info
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "schließen" %}</button>
             </div>
           </div>
         </div>
@@ -53,22 +53,22 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="test-answer-modal-label">Test Results</h5>
+              <h5 class="modal-title" id="test-answer-modal-label">{% trans "Testergebnisse" %}</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-                <p>correct answer:<span id='correct-answer-result'>0</span></p>
-                <p>Fisch Build: <span id='fisch-build-results'>0</span></p>
-                <p>Water protection: <span id='water-protection-results'>0</span></p>
-                <p>Fisching equipment: <span id='fisching-equipment-results'>0</span></p>
-                <p>Handling of cougthing fish: <span id='handling-of-caught-fish-results'>0</span></p>
-                <p>Law: <span id='law-results'>0</span></p>
+                <p>{% trans "richtige Antworten" %}: <span id='correct-answer-result'>0</span></p>
+                <p>{% trans "Fischkunde und -hege" %}: <span id='fisch-build-results'>0</span></p>
+                <p>{% trans "Pflege der Fischgewässer" %}: <span id='water-protection-results'>0</span></p>
+                <p>{% trans "Fanggeräte und deren Gebrauch" %}: <span id='fisching-equipment-results'>0</span></p>
+                <p>{% trans "Behandlung der gefangenen Fische" %}: <span id='handling-of-caught-fish-results'>0</span></p>
+                <p>{% trans "Einschlägige Rechtsvorschriften" %}: <span id='law-results'>0</span></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="far fa-copy"></i> try again</button>
-                <button id='new-test-in-modal-btn' type="button" class="btn btn-secondary" data-dismiss='modal'><i class="far fa-check-circle"></i> new test</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="far fa-copy"></i> {% trans "nochmal versuchen" %}</button>
+                <button id='new-test-in-modal-btn' type="button" class="btn btn-secondary" data-dismiss='modal'><i class="far fa-check-circle"></i> {% trans "neuer Test" %}</button>
             </div>
           </div>
         </div>
